@@ -25,7 +25,6 @@ class NotificationService {
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
-      requestCriticalPermission: true,
     );
     const linuxSettings = LinuxInitializationSettings(defaultActionName: 'Open');
     // Windows requires specific settings with appName, appUserModelId, and guid
@@ -49,7 +48,7 @@ class NotificationService {
     final android = _notifications.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
     if (android != null) return await android.requestNotificationsPermission() ?? false;
     final ios = _notifications.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
-    if (ios != null) return await ios.requestPermissions(alert: true, badge: true, sound: true, criticalAlert: true) ?? false;
+    if (ios != null) return await ios.requestPermissions(alert: true, badge: true, sound: true) ?? false;
     return true;
   }
 
@@ -125,7 +124,7 @@ class NotificationService {
           presentBadge: true,
           presentSound: true,
           sound: alarmSoundIOS,
-          interruptionLevel: InterruptionLevel.critical,
+          interruptionLevel: InterruptionLevel.timeSensitive,
         ),
       );
       // FIX: Use named parameters for zonedSchedule
@@ -166,7 +165,7 @@ class NotificationService {
           presentBadge: true,
           presentSound: true,
           sound: alarmSoundIOS,
-          interruptionLevel: InterruptionLevel.critical,
+          interruptionLevel: InterruptionLevel.timeSensitive,
         ),
       );
       // FIX: Use named parameters for zonedSchedule
@@ -229,7 +228,7 @@ class NotificationService {
           presentBadge: true,
           presentSound: true,
           sound: alarmSoundIOS,
-          interruptionLevel: InterruptionLevel.critical,
+          interruptionLevel: InterruptionLevel.timeSensitive,
         ),
       );
       // FIX: Use named parameters for show
