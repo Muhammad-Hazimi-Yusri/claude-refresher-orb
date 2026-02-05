@@ -14,6 +14,10 @@ class NotificationService {
   static const String channelName = 'Claude Usage Alerts';
   static const String channelDescription = 'Notifications for Claude usage limits';
 
+  // Custom alarm sound file (alarm.wav in ios/Runner/ and android/app/src/main/res/raw/)
+  static const String alarmSoundAndroid = 'alarm';
+  static const String alarmSoundIOS = 'alarm.wav';
+
   Future<void> init() async {
     tz.initializeTimeZones();
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -110,13 +114,17 @@ class NotificationService {
           channelId,
           channelName,
           channelDescription: channelDescription,
-          importance: Importance.high,
-          priority: Priority.high,
+          importance: Importance.max,
+          priority: Priority.max,
+          sound: const RawResourceAndroidNotificationSound(alarmSoundAndroid),
+          playSound: true,
         ),
         iOS: const DarwinNotificationDetails(
           presentAlert: true,
           presentBadge: true,
           presentSound: true,
+          sound: alarmSoundIOS,
+          interruptionLevel: InterruptionLevel.timeSensitive,
         ),
       );
       // FIX: Use named parameters for zonedSchedule
@@ -147,13 +155,17 @@ class NotificationService {
           channelId,
           channelName,
           channelDescription: channelDescription,
-          importance: Importance.high,
-          priority: Priority.high,
+          importance: Importance.max,
+          priority: Priority.max,
+          sound: const RawResourceAndroidNotificationSound(alarmSoundAndroid),
+          playSound: true,
         ),
         iOS: const DarwinNotificationDetails(
           presentAlert: true,
           presentBadge: true,
           presentSound: true,
+          sound: alarmSoundIOS,
+          interruptionLevel: InterruptionLevel.timeSensitive,
         ),
       );
       // FIX: Use named parameters for zonedSchedule
@@ -206,13 +218,14 @@ class NotificationService {
           channelId,
           channelName,
           channelDescription: channelDescription,
-          importance: Importance.high,
-          priority: Priority.high,
+          importance: Importance.max,
+          priority: Priority.max,
         ),
         iOS: const DarwinNotificationDetails(
           presentAlert: true,
           presentBadge: true,
           presentSound: true,
+          interruptionLevel: InterruptionLevel.timeSensitive,
         ),
       );
       // FIX: Use named parameters for show
